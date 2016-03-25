@@ -1,8 +1,46 @@
 angular.module('starter.MapController', [])
 
-.controller('MapController', function($scope, $rootScope, $state, $ionicLoading) {
+.controller('MapController', function($scope, $rootScope, $state, $ionicLoading, $stateParams) {
+  $scope.markers = [];
+
+  $scope.changeView = function (state) {
+    $state.go(state);
+  }
+
+  $scope.setMarkerOnSelectedLocation = function (latitude, longitude) {
+    console.log("Centering");
+    if (!$scope.map) {
+      return;
+    }
+
+    $scope.loading = $ionicLoading.show({
+      content: 'Getting selected Location...',
+      showBackdrop: false
+    });
+
+    $scope.options = {scrollwheel: true};
+
+    $scope.map.setCenter(new google.maps.LatLng(latitude, longitude));
+    $scope.loading.hide();
+    $scope.addMarker(latitude, longitude);
+
+  }
+
   $scope.mapCreated = function(map) {
     $scope.map = map;
+
+    $scope.addMarker = function (lat, lng) {
+      var marker = new google.maps.Marker({
+        map: $scope.map,
+        position:  new google.maps.LatLng(lat, lng)
+      });
+      marker.addListener('click', function() {
+        $scope.changeView('details');
+      });
+      $scope.markers.push(marker);
+    };
+
+    $scope.setMarkerOnSelectedLocation($stateParams.latitude, $stateParams.longitude);
   };
 
   $scope.centerOnMe = function () {
@@ -17,21 +55,6 @@ angular.module('starter.MapController', [])
     });
 
     $scope.options = {scrollwheel: true};
-
-    $scope.markers = [];
-
-    $scope.changeView = function(data) {
-      $state.go('list');
-    }
-
-    $scope.addMarker = function (lat, lng) {
-      var marker = new google.maps.Marker({
-        map: $scope.map,
-        position:  new google.maps.LatLng(lat, lng)
-      });
-      marker.addListener('click', $scope.changeView);
-      $scope.markers.push(marker);
-    };
 
     navigator.geolocation.getCurrentPosition(function (pos) {
       console.log('Got pos', pos);

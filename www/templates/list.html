@@ -4,7 +4,7 @@
       <!-- <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
         {{playlist.title}}
       </ion-item> -->
-      <ion-item ng-repeat="location in locations" href="#/map">
+      <ion-item ng-repeat="location in locations" href="#/map/{{location.location.coords.latitude}}/{{location.location.coords.longitude}}">
         {{location.address.formatted_address}}
       </ion-item>
 
