@@ -3,6 +3,7 @@ angular.module('starter.ListController', [])
 .controller('ListController', function($scope, $state, $ionicLoading, $rootScope) {
     $scope.geocoder = new google.maps.Geocoder();
     $scope.locations = [];
+    $scope.serverData = [];
     $scope.addToList = function(locationWithData) {
       $scope.locations.push(locationWithData);
       $scope.$apply();
@@ -13,4 +14,12 @@ angular.module('starter.ListController', [])
         $scope.addToList(locationWithData)
       })
     })
+
+
+    io.socket.get('/pollution', function(data){
+      console.log(data);
+      $scope.serverData = data;
+      $scope.$apply();
+    })
+
 });

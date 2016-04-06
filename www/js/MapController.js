@@ -3,8 +3,13 @@ angular.module('starter.MapController', [])
 .controller('MapController', function($scope, $rootScope, $state, $ionicLoading, $stateParams) {
   $scope.markers = [];
 
+  $rootScope.$on(CLICKED_NOTIFICATION, function(event, data){
+    console.log(JSON.parse(data.data.data));
+    $scope.setMarkerOnSelectedLocation(parseFloat(JSON.parse(data.data.data).location.location.latitude), parseFloat(JSON.parse(data.data.data).location.location.longitude))
+  });
+
   $scope.changeView = function (state) {
-    $state.go(state);
+    $state.go(state, { latitude: $stateParams.latitude, longitude: $stateParams.longitude, data: $stateParams.bluetoothData});
   }
 
   $scope.setMarkerOnSelectedLocation = function (latitude, longitude) {

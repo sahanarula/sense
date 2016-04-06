@@ -4,9 +4,23 @@
       <!-- <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
         {{playlist.title}}
       </ion-item> -->
-      <ion-item ng-repeat="location in locations" href="#/map/{{location.location.coords.latitude}}/{{location.location.coords.longitude}}">
-        {{location.address.formatted_address}}
-      </ion-item>
+      <ul class="list">
+        <li class="item" ng-repeat="location in locations">
+          <a href="#/map/{{location.location.coords.latitude}}/{{location.location.coords.longitude}}/{{location.data}}">
+            {{location.address.formatted_address}}
+          </a>
+        </li>
+      </ul>
+      <ul class="list">
+        <li class="item" ng-repeat="data in serverData">
+          <a href="#/map/{{data.location.location.latitude}}/{{data.location.location.longitude}}/{{data.$stateParams.data}}">
+            {{data.location.address.formatted_address}}
+          </a>
+        </li>
+      </ul>
+      <!-- <ion-item ng-repeat="data in serverData" href="#map/{{data.location.location.latitude}}/{{data.location.location.longitude}}">
+        {{data.location.address.formatted_address}}
+      </ion-item> -->
 
     </ion-list>
   </ion-content>

@@ -8,3 +8,7 @@ map {
 .scroll {
   height: 100%;
 }
+li.item a {
+  color: black;
+  text-decoration: none;
+}

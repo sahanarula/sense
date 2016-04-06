@@ -3,17 +3,22 @@
     <div class="list card">
 
       <div class="item item-avatar">
-        <img src="http://images.forbes.com/media/2010/10/19/1019_industrial-services_270x190.jpg">
+        <img src="img/pollution.png">
         <h2>Sense</h2>
         <p>Real time pollution around the globe</p>
       </div>
 
       <div class="item item-image">
-        <img src="http://bloximages.newyork1.vip.townnews.com/stltoday.com/content/tncms/assets/v3/editorial/d/99/d990bdeb-bfcf-53b7-9f80-2097398706cc/4f729a89be5e7.preview-300.jpg?resize=200%2C217">
+        <img src="img/pollution_large.png">
       </div>
 
+      <div class="details item">
+        Pollution PPM found in this area is: {{detailsData}}
+      </div>
+
+
       <div style="margin-bottom: 50px;">
-        <a class="item item-icon-left assertive" href="#">
+        <a class="item item-icon-left assertive" ng-click="sendAlert()">
           <i class="icon ion-radio-waves"></i>
           Send Alert
         </a>

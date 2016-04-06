@@ -4,7 +4,7 @@ angular.module('starter', ['ionic', 'starter.FooterController', 'starter.HeaderC
   $urlRouterProvider.otherwise('/list')
 
   $stateProvider.state('map', {
-    url: '/map/:latitude/:longitude',
+    url: '/map/:latitude/:longitude/:bluetoothData',
     templateUrl: 'templates/map.html',
     controller: 'MapController'
   })
@@ -16,8 +16,12 @@ angular.module('starter', ['ionic', 'starter.FooterController', 'starter.HeaderC
   })
 
   $stateProvider.state('details', {
-    url: '/details',
     templateUrl: 'templates/details.html',
+    params: [
+      'longitude',
+      'latitude',
+      'data'
+    ],
     controller: 'DetailsController'
   })
 
@@ -25,32 +29,69 @@ angular.module('starter', ['ionic', 'starter.FooterController', 'starter.HeaderC
 
 .run(function($ionicPlatform, $rootScope) {
 
-  $rootScope.bluetoothData = [];
-  $rootScope.bluetoothData.push('330');
-  setInterval(function() {
-    $rootScope.$broadcast(UPDATE_BLUETOOTH_DATA, {saha: 'sahanarula'});
-  }, 1000);
-  $ionicPlatform.ready(function() {
-    console.log(cordova)
+  io.socket.get('/pollution', function(data){
+    $rootScope.$broadcast(UPDATE_SERVER_DATA, data);
+  })
+
+  io.socket.on('pollution', function(data){
+    console.log(data);
     cordova.plugins.notification.local.schedule({
         id: 1,
         title: "Pollution Alert",
-        text: "Location: Bommanahalli",
-        data: { meetingId:"123#fg8" }
+        text: "Location: " + data.data.location.address.formatted_address,
+        data: { location: data.data }
     });
+    cordova.plugins.notification.local.on("click", function (data) {
+      console.log(location);
+      $rootScope.$broadcast(CLICKED_NOTIFICATION, {data});
+    });
+  })
+
+  $rootScope.sendSocketData = function(data) {
+    io.socket.post('/pollution', data);
+  }
+
+  //
+  // // Add a connect listener
+  // socket.on('connect',function() {
+  //   console.log('Client has connected to the server!');
+  // });
+  // // Add a connect listener
+  // socket.on('message',function(data) {
+  //   console.log('Received a message from the server!',data);
+  // });
+  // // Add a disconnect listener
+  // socket.on('disconnect',function() {
+  //   console.log('The client has disconnected!');
+  // });
+
+  // Sends a message to the server via sockets
+  $rootScope.sendMessageToServer = function(message) {
+    socket.send(message);
+  };
+  setInterval(function() {
+    $rootScope.$broadcast(UPDATE_BLUETOOTH_DATA, '12321');
+  }, 1000);
+  $ionicPlatform.ready(function() {
     if(window.StatusBar) {
       console.log(bluetoothSerial);
-      // bluetoothSerial.connect('98:D3:31:70:69:49', function(data){
-      //   console.log('bluetooth device is ready');
-      //   bluetoothSerial.subscribe('\n', function (data) {
-      //     $rootScope.$broadcast(UPDATE_BLUETOOTH_DATA, data);
-      //     console.log(data);
-      //   }, function(err) {
-      //     console.log('data is not ready');
-      //   });
-      // }, function(err) {
-      //   console.log('bluetooth device is not ready');
-      // });
+      bluetoothSerial.isEnabled(function() {
+        bluetoothSerial.connect('98:D3:31:70:69:49', function(data){
+          console.log('bluetooth device is ready');
+          bluetoothSerial.subscribe('\n', function (data) {
+            $rootScope.bluetoothData = data;
+            $rootScope.$broadcast(UPDATE_BLUETOOTH_DATA, data);
+            console.log(data);
+          }, function(err) {
+            console.log('data is not ready');
+          });
+        }, function(err) {
+          console.log('Unable to connect to the bluetooth device');
+        });
+      }, function() {
+        alert('Please turn on your bluetooth');
+      });
+
       StatusBar.styleDefault();
     }
   });
