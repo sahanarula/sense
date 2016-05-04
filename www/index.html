@@ -7,6 +7,7 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="lib/angular-chart.js/dist/angular-chart.css">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -20,6 +21,8 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="lib/Chart.js/Chart.js"></script>
+    <script src="lib/angular-chart.js/dist/angular-chart.js"></script>
     <script type="text/javascript">
       sailsUrl = 'http://pollution.cloudapp.net/';
     </script>
@@ -32,6 +35,7 @@
     <script src="js/FooterController.js"></script>
     <script src="js/ListController.js"></script>
     <script src="js/DetailsController.js"></script>
+    <script src="js/StatsController.js"></script>
     <script src="js/directives.js"></script>
   </head>
 
@@ -45,6 +49,7 @@
 
     <ion-footer-bar class="bar-stable" ng-controller="FooterController">
       <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate"></a>
+      <a href="#/stats" class="button button-icon icon ion-stats-bars text-right"></a>
     </ion-footer-bar>
   </body>
 </html>

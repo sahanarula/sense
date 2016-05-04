@@ -3,6 +3,7 @@ var CALL_CENTER_ON_ME = 'CALL_CENTER_ON_ME';
 var UPDATE_BLUETOOTH_DATA = 'UPDATE_BLUETOOTH_DATA';
 var CLICKED_NOTIFICATION = 'CLICKED_NOTIFICATION';
 var UPDATE_SERVER_DATA = 'UPDATE_SERVER_DATA';
+var UPDATE_GRAPH = 'UPDATE_GRAPH';
 
 var notInArray = function(scope, address) {
   for(var i=0; i<scope.locations.length; i++) {

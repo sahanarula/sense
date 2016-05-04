@@ -1,4 +1,16 @@
-angular.module('starter', ['ionic', 'starter.FooterController', 'starter.HeaderController', 'starter.MapController', 'starter.ListController', 'starter.DetailsController', 'starter.directives', 'ngCordova'])
+angular.module('starter', [
+  'ionic',
+  'starter.FooterController',
+  'starter.HeaderController',
+  'starter.MapController',
+  'starter.ListController',
+  'starter.DetailsController',
+  'starter.StatsController',
+  'starter.directives',
+  'ngCordova',
+  'chart.js'
+  ]
+)
 
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/list')
@@ -24,6 +36,13 @@ angular.module('starter', ['ionic', 'starter.FooterController', 'starter.HeaderC
     ],
     controller: 'DetailsController'
   })
+
+  $stateProvider.state('stats', {
+    url: '/stats',
+    templateUrl: 'templates/stats.html',
+    controller: 'StatsController'
+  })
+
 
 })
 
@@ -70,8 +89,8 @@ angular.module('starter', ['ionic', 'starter.FooterController', 'starter.HeaderC
     socket.send(message);
   };
   setInterval(function() {
-    $rootScope.$broadcast(UPDATE_BLUETOOTH_DATA, '12321');
-  }, 1000);
+    $rootScope.$broadcast(UPDATE_GRAPH, (Math.random() * 100) + 1);
+  }, 2000);
   $ionicPlatform.ready(function() {
     if(window.StatusBar) {
       console.log(bluetoothSerial);
@@ -81,6 +100,7 @@ angular.module('starter', ['ionic', 'starter.FooterController', 'starter.HeaderC
           bluetoothSerial.subscribe('\n', function (data) {
             $rootScope.bluetoothData = data;
             $rootScope.$broadcast(UPDATE_BLUETOOTH_DATA, data);
+            $rootScope.$broadcast(UPDATE_GRAPH, parseInt(data)/10);
             console.log(data);
           }, function(err) {
             console.log('data is not ready');
