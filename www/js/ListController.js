@@ -17,7 +17,6 @@ angular.module('starter.ListController', [])
 
 
     io.socket.get('/pollution', function(data){
-      console.log(data);
       $scope.serverData = data;
       $scope.$apply();
     })

@@ -5,7 +5,7 @@ angular.module('starter.StatsController', [])
     $scope.data = [[]];
     $scope.labels = [];
 
-    var maximum = document.getElementById('chart-container').clientWidth / 50 || 300;
+    var maximum = document.getElementById('chart-container').clientWidth / 70 || 300;
     console.log(maximum)
     $rootScope.$on(UPDATE_GRAPH, function(event, data) {
         if ($scope.data[0].length) {
@@ -15,7 +15,7 @@ angular.module('starter.StatsController', [])
         while ($scope.data[0].length < maximum) {
           var a = new Date();
           $scope.labels.push(a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds());
-          console.log(data);
+        //   console.log(data);
           $scope.data[0].push(data);
         }
         $scope.$apply()

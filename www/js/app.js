@@ -88,9 +88,7 @@ angular.module('starter', [
   $rootScope.sendMessageToServer = function(message) {
     socket.send(message);
   };
-  setInterval(function() {
-    $rootScope.$broadcast(UPDATE_GRAPH, (Math.random() * 100) + 1);
-  }, 2000);
+
   $ionicPlatform.ready(function() {
     if(window.StatusBar) {
       console.log(bluetoothSerial);
@@ -100,8 +98,7 @@ angular.module('starter', [
           bluetoothSerial.subscribe('\n', function (data) {
             $rootScope.bluetoothData = data;
             $rootScope.$broadcast(UPDATE_BLUETOOTH_DATA, data);
-            $rootScope.$broadcast(UPDATE_GRAPH, parseInt(data)/10);
-            console.log(data);
+            $rootScope.$broadcast(UPDATE_GRAPH, parseInt(data*100));
           }, function(err) {
             console.log('data is not ready');
           });
